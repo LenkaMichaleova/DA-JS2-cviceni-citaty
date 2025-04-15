@@ -1,10 +1,20 @@
-import { render } from '@czechitas/render';
-import '../global.css';
 import './index.css';
-import { listQuotes , randomQuote} from "/quotes.js"
+import { listQuotes , randomQuote, moveToTop } from "/quotes.js"
 
-document.querySelector('#root').innerHTML = render(
-  <div className="container">
-    <p>{randomQuote(listQuotes)}</p>
-  </div>
-);
+const renderQuotes = () => {
+  listQuotes.forEach((quote) => {
+    document.querySelector(".container").innerHTML += `<p>"${quote}"</p>`
+  })
+  document.querySelectorAll("p").forEach((p, i) => {
+
+    p.addEventListener("click", () => {
+      document.querySelector(".container").textContent = ""
+      moveToTop(i)
+      renderQuotes()
+      console.log(listQuotes)
+    })
+  })
+}
+
+console.log(randomQuote())
+renderQuotes()
